@@ -8,7 +8,7 @@ const year = new Date().getFullYear();
   <div class="wrap">
     <div class="cols">
       <div>
-        <a class="brand" href="/" aria-label={`${site.name} home`}><img class="brand-logo" src="/brand/logo-white.png" alt="" width="975" height="203" loading="lazy" /></a>
+        <a class="brand" href="/" aria-label={`${site.name} home`}><img class="brand-logo" src="/brand/logo-white.svg" alt="" width="965" height="194" loading="lazy" /></a>
         <p>{site.tagline}. Banners, apparel, promotional items and offset printing.</p>
       </div>
       <div>
@@ -19,7 +19,8 @@ const year = new Date().getFullYear();
         <h2>Contact</h2>
         <ul>
           <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
-          {site.phone && <li><a href={`tel:${site.phone.replace(/\s/g, '')}`}>{site.phone}</a></li>}
+          {site.phone && <li><a href={`tel:${site.phone.replace(/\s/g, '')}`}>Call {site.phone}</a></li>}
+          {site.whatsapp && <li><a href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noopener">WhatsApp {site.phone}</a></li>}
           {site.address && <li>{site.address}{site.city && `, ${site.city}`}</li>}
           {site.hours && <li>{site.hours}</li>}
         </ul>

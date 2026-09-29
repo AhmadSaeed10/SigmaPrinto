@@ -12,7 +12,8 @@ const services = (await getCollection('services')).sort((a, b) => a.data.order -
       <p>Share the item, size and quantity. We reply with a price and a proof plan, and nothing is printed until you approve.</p>
       <ul class="contact-list">
         <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
-        {site.phone && <li><a href={`tel:${site.phone.replace(/\s/g, '')}`}>{site.phone}</a></li>}
+        {site.phone && <li><a href={`tel:${site.phone.replace(/\s/g, '')}`}>Call {site.phone}</a></li>}
+        {site.whatsapp && <li><a href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noopener">WhatsApp {site.phone}</a></li>}
       </ul>
     </div>
 
@@ -46,7 +47,7 @@ const services = (await getCollection('services')).sort((a, b) => a.data.order -
         <textarea id="q-details" name="details" placeholder="e.g. 10 x 3 ft flex banner for an event on 15 Oct"></textarea>
         <span class="hint">No artwork yet? Say so and we will help with the design.</span>
       </div>
-      <button class="btn" type="submit">Request my quote</button>
+      <button class="btn" type="submit">{site.whatsapp ? 'Send request on WhatsApp' : 'Request my quote'}</button>
       <p class="hint" id="q-status" role="status"></p>
     </form>
   </div>
