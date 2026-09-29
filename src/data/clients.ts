@@ -1,0 +1,20 @@
+// Client logos for the homepage marquee. w/h are display sizes in CSS px,
+// balanced by visual area so wide wordmarks and square badges carry similar weight.
+export const clients = [
+  { name: "Concept Pharma", src: '/clients/concept-pharma.webp', w: 119, h: 54 },
+  { name: "China Town Lahore", src: '/clients/china-town-lahore.webp', w: 54, h: 72 },
+  { name: "Datics", src: '/clients/datics.webp', w: 135, h: 47 },
+  { name: "E5 Marketers", src: '/clients/e5-marketers.webp', w: 91, h: 70 },
+  { name: "Ercon Group", src: '/clients/ercon-group.webp', w: 117, h: 55 },
+  { name: "Global Pharmaceuticals", src: '/clients/global-pharmaceuticals.webp', w: 84, h: 72 },
+  { name: "HSI", src: '/clients/hsi.webp', w: 93, h: 69 },
+  { name: "Mycell Technologies", src: '/clients/mycell-technologies.webp', w: 82, h: 72 },
+  { name: "Neston Way Real Estate Marketing", src: '/clients/neston-way.webp', w: 154, h: 42 },
+  { name: "Obaid Noor Institute of Medical Sciences", src: '/clients/onims.webp', w: 71, h: 72 },
+  { name: "Obaid Noor Hospital", src: '/clients/obaid-noor-hospital.webp', w: 98, h: 65 },
+  { name: "Pakeeza Products", src: '/clients/pakeeza-products.webp', w: 70, h: 72 },
+  { name: "READ Group", src: '/clients/read-group.webp', w: 90, h: 71 },
+  { name: "Red Ocean Communication & PR", src: '/clients/red-ocean.webp', w: 145, h: 44 },
+  { name: "Sound & Vision", src: '/clients/sound-and-vision.webp', w: 70, h: 72 },
+  { name: "Tasneem Hospital", src: '/clients/tasneem-hospital.webp', w: 72, h: 72 },
+];

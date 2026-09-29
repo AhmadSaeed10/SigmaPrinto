@@ -1,0 +1,44 @@
+---
+import { clients } from '../data/clients';
+
+interface Props { title?: string; intro?: string }
+const {
+  title = 'Brands that print with us',
+  intro = 'Hospitals, pharma, tech, real estate and retail teams trust us with their print and branding.',
+} = Astro.props;
+---
+<section class="section clients" aria-labelledby="clients-title">
+  <div class="wrap clients-head">
+    <div>
+      <h2 id="clients-title">{title}</h2>
+      <p>{intro}</p>
+    </div>
+    <button class="marquee-toggle" type="button" aria-pressed="false" aria-controls="clients-marquee">
+      <span class="when-playing">Pause</span><span class="when-paused">Play</span>
+    </button>
+  </div>
+  <div class="marquee" id="clients-marquee">
+    <div class="marquee-track">
+      {[0, 1].map((copy) => (
+        <ul class="marquee-list" aria-hidden={copy === 1 ? 'true' : undefined}>
+          {clients.map((c) => (
+            <li class="client-tile">
+              <img src={c.src} alt={copy === 0 ? c.name : ''} width={c.w} height={c.h} decoding="async" style={`--w:${c.w}px;--h:${c.h}px`} />
+            </li>
+          ))}
+        </ul>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('.marquee-toggle').forEach((btn) => {
+    const marquee = document.getElementById(btn.getAttribute('aria-controls') ?? '');
+    btn.addEventListener('click', () => {
+      const paused = btn.getAttribute('aria-pressed') !== 'true';
+      btn.setAttribute('aria-pressed', String(paused));
+      marquee?.classList.toggle('is-paused', paused);
+    });
+  });
+</script>

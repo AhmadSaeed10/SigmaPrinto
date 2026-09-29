@@ -4,6 +4,7 @@ import Base from '../layouts/Base.astro';
 import Hero from '../components/Hero.astro';
 import QuoteForm from '../components/QuoteForm.astro';
 import Faq from '../components/Faq.astro';
+import Clients from '../components/Clients.astro';
 import { faqs } from '../data/faqs';
 import { site } from '../site';
 
@@ -36,6 +37,7 @@ const steps = [
   schema={[faqSchema]}
 >
   <Hero />
+  <Clients />
 
   <section class="section services" id="services">
     <div class="wrap">
