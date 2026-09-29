@@ -1,0 +1,28 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+const services = (await getCollection('services')).sort((a, b) => a.data.order - b.data.order);
+---
+<Base title="Printing Services | SigmaPrinto" description="Large format, offset, apparel, promotional and event printing. See what is included in each service.">
+  <div class="wrap page-head">
+    <p class="crumbs"><a href="/">Home</a> / Services</p>
+    <h1 class="misreg" style="font-size: clamp(2.2rem, 5.5vw, 4rem)">Printing services</h1>
+    <p>Everything we print, grouped by how you use it.</p>
+  </div>
+  <div class="wrap section" style="padding-top:1rem">
+    <ul class="service-list">
+      {services.map((s) => (
+        <li>
+          <a class="service-row" href={`/services/${s.id}/`}>
+            <h3>{s.data.title}<span class="spec">{s.data.spec}</span></h3>
+            <div>
+              <p>{s.data.summary}</p>
+              <ul class="chips">{s.data.items.map((i) => <li>{i}</li>)}</ul>
+            </div>
+            <span class="row-go">View details</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</Base>

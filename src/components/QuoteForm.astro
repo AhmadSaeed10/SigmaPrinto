@@ -1,0 +1,75 @@
+---
+import { getCollection } from 'astro:content';
+import { site } from '../site';
+interface Props { selected?: string }
+const { selected = '' } = Astro.props;
+const services = (await getCollection('services')).sort((a, b) => a.data.order - b.data.order);
+---
+<section class="section" id="quote">
+  <div class="wrap quote-grid">
+    <div class="quote-aside">
+      <h2>Tell us what you need printed</h2>
+      <p>Share the item, size and quantity. We reply with a price and a proof plan, and nothing is printed until you approve.</p>
+      <ul class="contact-list">
+        <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
+        {site.phone && <li><a href={`tel:${site.phone.replace(/\s/g, '')}`}>{site.phone}</a></li>}
+      </ul>
+    </div>
+
+    <form class="quote" id="quote-form" data-whatsapp={site.whatsapp} data-email={site.email}>
+      <div class="row2">
+        <div class="field">
+          <label for="q-name">Your name</label>
+          <input id="q-name" name="name" autocomplete="name" required />
+        </div>
+        <div class="field">
+          <label for="q-contact">Phone or email</label>
+          <input id="q-contact" name="contact" autocomplete="email" required />
+        </div>
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label for="q-product">What do you need?</label>
+          <select id="q-product" name="product" required>
+            <option value="">Choose a product type</option>
+            {services.map((s) => <option value={s.data.title} selected={s.id === selected}>{s.data.title}</option>)}
+            <option value="Something else">Something else</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="q-qty">Quantity</label>
+          <input id="q-qty" name="qty" inputmode="numeric" placeholder="e.g. 50" />
+        </div>
+      </div>
+      <div class="field">
+        <label for="q-details">Size, material and deadline</label>
+        <textarea id="q-details" name="details" placeholder="e.g. 10 x 3 ft flex banner for an event on 15 Oct"></textarea>
+        <span class="hint">No artwork yet? Say so and we will help with the design.</span>
+      </div>
+      <button class="btn" type="submit">Request my quote</button>
+      <p class="hint" id="q-status" role="status"></p>
+    </form>
+  </div>
+</section>
+
+<script>
+  const form = document.getElementById('quote-form') as HTMLFormElement | null;
+  const status = document.getElementById('q-status');
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const d = new FormData(form);
+    const body = [
+      `Name: ${d.get('name')}`,
+      `Contact: ${d.get('contact')}`,
+      `Product: ${d.get('product')}`,
+      `Quantity: ${d.get('qty') || 'not sure'}`,
+      `Details: ${d.get('details') || '-'}`,
+    ].join('\n');
+    const wa = form.dataset.whatsapp;
+    const url = wa
+      ? `https://wa.me/${wa}?text=${encodeURIComponent('Quote request\n' + body)}`
+      : `mailto:${form.dataset.email}?subject=${encodeURIComponent('Quote request')}&body=${encodeURIComponent(body)}`;
+    if (status) status.textContent = wa ? 'Opening WhatsApp with your request.' : 'Opening your email app with your request.';
+    window.location.href = url;
+  });
+</script>

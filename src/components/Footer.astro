@@ -1,0 +1,30 @@
+---
+import { getCollection } from 'astro:content';
+import { site } from '../site';
+const services = (await getCollection('services')).sort((a, b) => a.data.order - b.data.order);
+const year = new Date().getFullYear();
+---
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <a class="brand" href="/"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>{site.name}</a>
+        <p>{site.tagline}. Banners, apparel, promotional items and offset printing.</p>
+      </div>
+      <div>
+        <h2>Services</h2>
+        <ul>{services.map((s) => <li><a href={`/services/${s.id}/`}>{s.data.title}</a></li>)}</ul>
+      </div>
+      <div>
+        <h2>Contact</h2>
+        <ul>
+          <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
+          {site.phone && <li><a href={`tel:${site.phone.replace(/\s/g, '')}`}>{site.phone}</a></li>}
+          {site.address && <li>{site.address}{site.city && `, ${site.city}`}</li>}
+          {site.hours && <li>{site.hours}</li>}
+        </ul>
+      </div>
+    </div>
+    <p class="legal">&copy; {year} {site.name}. All rights reserved.</p>
+  </div>
+</footer>

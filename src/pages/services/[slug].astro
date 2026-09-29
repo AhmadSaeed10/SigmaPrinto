@@ -1,0 +1,57 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import QuoteForm from '../../components/QuoteForm.astro';
+import { site } from '../../site';
+
+export async function getStaticPaths() {
+  const services = (await getCollection('services')).sort((a, b) => a.data.order - b.data.order);
+  return services.map((entry) => ({ params: { slug: entry.id }, props: { entry, others: services.filter((s) => s.id !== entry.id) } }));
+}
+const { entry, others } = Astro.props;
+const { Content } = await render(entry);
+const d = entry.data;
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: d.title,
+    description: d.seoDescription,
+    provider: { '@id': `${site.url}/#business` },
+    url: `${site.url}/services/${entry.id}/`,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${site.url}/` },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: `${site.url}/services/` },
+      { '@type': 'ListItem', position: 3, name: d.title },
+    ],
+  },
+];
+---
+<Base title={d.seoTitle} description={d.seoDescription} schema={schema}>
+  <div class="wrap page-head">
+    <p class="crumbs"><a href="/">Home</a> / <a href="/services/">Services</a> / {d.title}</p>
+    <h1 class="misreg" style="font-size: clamp(2.2rem, 5.5vw, 4rem)">{d.title}</h1>
+    <p>{d.summary}</p>
+    <div><a class="btn" href="#quote">Get a quote</a></div>
+  </div>
+
+  <div class="wrap section" style="padding-top:1rem">
+    <div class="detail">
+      <div class="prose"><Content /></div>
+      <aside class="side">
+        <h2 style="font-size:1.3rem">What is included</h2>
+        <ul>{d.items.map((i) => <li>{i}</li>)}</ul>
+        <p class="hint"><strong>Best for:</strong> {d.suitableFor}</p>
+        <h3 style="font-size:1.05rem">More from us</h3>
+        <ul class="related">{others.map((o) => <li><a href={`/services/${o.id}/`}>{o.data.title}</a></li>)}</ul>
+      </aside>
+    </div>
+  </div>
+
+  <QuoteForm selected={entry.id} />
+</Base>

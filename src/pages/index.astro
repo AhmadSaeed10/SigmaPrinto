@@ -1,0 +1,93 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import QuoteForm from '../components/QuoteForm.astro';
+import Faq from '../components/Faq.astro';
+import { faqs } from '../data/faqs';
+import { site } from '../site';
+
+const services = (await getCollection('services')).sort((a, b) => a.data.order - b.data.order);
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+};
+
+const audiences = [
+  { h: 'Businesses', p: 'Stationery, brochures and signage that look the same on every desk and in every branch.' },
+  { h: 'Events', p: 'Banners, backdrops and collateral planned backwards from your event date.' },
+  { h: 'Shops', p: 'Storefront banners, posters and vinyl that hold their colour in the sun.' },
+  { h: 'Teams', p: 'Uniforms, caps and safety vests printed consistently across the whole order.' },
+];
+
+const steps = [
+  { h: 'Send your brief', p: 'Tell us the item, size, quantity and deadline. Attach artwork if you have it.' },
+  { h: 'Approve the proof', p: 'We check size, bleed and colour, then show you the layout to approve.' },
+  { h: 'We print', p: 'Production starts only after your approval, on the material we agreed.' },
+  { h: 'Receive your order', p: 'Collect it or have it delivered. Check it against the proof you approved.' },
+];
+---
+<Base
+  title="Printing Services for Banners, Apparel and Business | SigmaPrinto"
+  description={site.description}
+  path="/"
+  schema={[faqSchema]}
+>
+  <Hero />
+
+  <section class="section services" id="services">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>What we print</h2>
+        <p>From a single banner to a full event kit. Pick a category to see what is included.</p>
+      </div>
+      <ul class="service-list">
+        {services.map((s) => (
+          <li>
+            <a class="service-row" href={`/services/${s.id}/`}>
+              <h3>{s.data.title}<span class="spec">{s.data.spec}</span></h3>
+              <div>
+                <p>{s.data.summary}</p>
+                <ul class="chips">{s.data.items.map((i) => <li>{i}</li>)}</ul>
+              </div>
+              <span class="row-go">View details</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head"><h2>Made for the way you use print</h2></div>
+      <div class="built">
+        {audiences.map((a) => <div><h3>{a.h}</h3><p>{a.p}</p></div>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section process" id="how-it-works">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>From brief to delivery in four steps</h2>
+        <p>You see the result before we print it.</p>
+      </div>
+      <ol class="steps">
+        {steps.map((s) => <li><h3>{s.h}</h3><p>{s.p}</p></li>)}
+      </ol>
+    </div>
+  </section>
+
+  <QuoteForm />
+  <Faq />
+
+  <section class="section final">
+    <div class="wrap">
+      <h2>Have artwork ready? Send it over.</h2>
+      <a class="btn" href="#quote">Get a quote</a>
+    </div>
+  </section>
+</Base>
