@@ -13,6 +13,9 @@ const services = defineCollection({
     seoTitle: z.string().max(60),
     seoDescription: z.string().max(160),
     spec: z.string(), // short line shown in the index, e.g. "Vinyl, flex, 13oz+"
+    // Optional photo in /public, e.g. /services/offset-printing.jpg. Falls back to the illustration /services/<id>.svg
+    image: z.string().optional(),
+    imageAlt: z.string().optional(),
   }),
 });
 

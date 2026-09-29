@@ -43,7 +43,17 @@ const graph = [business, ...schema];
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <meta name="theme-color" content="#0f1a33" />
+    <meta name="theme-color" content="#f4f6f9" />
+    <script is:inline>
+      // Set the theme before first paint to avoid a flash: saved choice, else the OS setting.
+      (function () {
+        var t = null;
+        try { t = localStorage.getItem('theme'); } catch (e) {}
+        if (t !== 'light' && t !== 'dark') t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.dataset.theme = t;
+        if (t === 'dark') document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0b1120');
+      })();
+    </script>
     <meta property="og:site_name" content={site.name} />
     <meta property="og:type" content={type} />
     <meta property="og:title" content={title} />

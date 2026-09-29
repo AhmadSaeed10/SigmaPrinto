@@ -1,14 +1,12 @@
 ---
-import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
+import ServiceList from '../components/ServiceList.astro';
 import Hero from '../components/Hero.astro';
 import QuoteForm from '../components/QuoteForm.astro';
 import Faq from '../components/Faq.astro';
 import Clients from '../components/Clients.astro';
 import { faqs } from '../data/faqs';
 import { site } from '../site';
-
-const services = (await getCollection('services')).sort((a, b) => a.data.order - b.data.order);
 
 const faqSchema = {
   '@context': 'https://schema.org',
@@ -45,20 +43,7 @@ const steps = [
         <h2>What we print</h2>
         <p>From a single banner to a full event kit. Pick a category to see what is included.</p>
       </div>
-      <ul class="service-list">
-        {services.map((s) => (
-          <li>
-            <a class="service-row" href={`/services/${s.id}/`}>
-              <h3>{s.data.title}<span class="spec">{s.data.spec}</span></h3>
-              <div>
-                <p>{s.data.summary}</p>
-                <ul class="chips">{s.data.items.map((i) => <li>{i}</li>)}</ul>
-              </div>
-              <span class="row-go">View details</span>
-            </a>
-          </li>
-        ))}
-      </ul>
+      <ServiceList />
     </div>
   </section>
 

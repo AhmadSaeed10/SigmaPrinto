@@ -3,6 +3,7 @@ import { getCollection, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import QuoteForm from '../../components/QuoteForm.astro';
 import { site } from '../../site';
+import { serviceImage } from '../../lib/serviceImage';
 
 export async function getStaticPaths() {
   const services = (await getCollection('services')).sort((a, b) => a.data.order - b.data.order);
@@ -11,6 +12,7 @@ export async function getStaticPaths() {
 const { entry, others } = Astro.props;
 const { Content } = await render(entry);
 const d = entry.data;
+const img = serviceImage(entry);
 
 const schema = [
   {
@@ -20,6 +22,7 @@ const schema = [
     description: d.seoDescription,
     provider: { '@id': `${site.url}/#business` },
     url: `${site.url}/services/${entry.id}/`,
+    image: `${site.url}${img.src}`,
   },
   {
     '@context': 'https://schema.org',
@@ -33,11 +36,14 @@ const schema = [
 ];
 ---
 <Base title={d.seoTitle} description={d.seoDescription} schema={schema}>
-  <div class="wrap page-head">
-    <p class="crumbs"><a href="/">Home</a> / <a href="/services/">Services</a> / {d.title}</p>
-    <h1 class="misreg" style="font-size: clamp(2.2rem, 5.5vw, 4rem)">{d.title}</h1>
-    <p>{d.summary}</p>
-    <div><a class="btn" href="#quote">Get a quote</a></div>
+  <div class="wrap service-head">
+    <div class="page-head">
+      <p class="crumbs"><a href="/">Home</a> / <a href="/services/">Services</a> / {d.title}</p>
+      <h1 class="misreg" style="font-size: clamp(2.2rem, 5.5vw, 4rem)">{d.title}</h1>
+      <p>{d.summary}</p>
+      <div><a class="btn" href="#quote">Get a quote</a></div>
+    </div>
+    <img class="service-media" src={img.src} alt={img.alt} width="480" height="360" decoding="async" />
   </div>
 
   <div class="wrap section" style="padding-top:1rem">
