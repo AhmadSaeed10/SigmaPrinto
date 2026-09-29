@@ -5,8 +5,8 @@ export const site = {
   tagline: 'Printing that matches the proof',
   description:
     'Flex banners, posters, vinyl prints, apparel, promotional items and offset printing for businesses and events. Send your artwork, approve a proof, get it delivered.',
-  email: 'hello@sigmaprinto.com', // TODO confirm
-  phone: '', // TODO e.g. +92 300 0000000
+  email: 'Sigmaprinto7@gmail.com',
+  phone: '+92 326 6778432',
   whatsapp: '', // TODO digits only, e.g. 923000000000
   address: '', // TODO street address
   city: '', // TODO city

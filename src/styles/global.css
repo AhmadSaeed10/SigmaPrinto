@@ -61,17 +61,54 @@ p { margin: 0; max-width: 62ch; }
 /* Header */
 .site-header { position: sticky; top: 0; z-index: 50; background: rgba(244, 246, 249, .92); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
 .site-header .wrap { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 68px; }
-.brand { display: flex; align-items: center; gap: .6rem; text-decoration: none; font: 800 1.35rem var(--font-display); letter-spacing: -0.02em; }
-.brand-mark { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; width: 22px; height: 22px; }
-.brand-mark i:nth-child(1) { background: var(--cyan); }
-.brand-mark i:nth-child(2) { background: var(--magenta); }
-.brand-mark i:nth-child(3) { background: var(--yellow); }
-.brand-mark i:nth-child(4) { background: var(--ink); }
+.brand { display: flex; align-items: center; text-decoration: none; flex-shrink: 0; }
+.brand-logo { display: block; height: 46px; width: auto; }
 .nav { display: flex; align-items: center; gap: clamp(.75rem, 2vw, 1.75rem); }
 .nav a:not(.btn) { text-decoration: none; font-weight: 600; padding: .5rem .25rem; }
 .nav a:not(.btn):hover { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 6px; text-decoration-color: var(--magenta); }
 .nav .btn { min-height: 44px; padding: .5rem 1.1rem; }
-@media (max-width: 760px) { .nav a:not(.btn) { display: none; } }
+.header-cta, .menu-toggle { display: none; }
+
+/* Mobile menu */
+@media (max-width: 760px) {
+  .site-header .wrap { min-height: 60px; gap: .75rem; }
+  .brand { margin-right: auto; }
+  .brand-logo { height: 36px; }
+  .header-cta { display: inline-flex; min-height: 44px; padding: .5rem 1rem; font-size: .95rem; }
+  .menu-toggle {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 44px; height: 44px; margin-right: -.5rem; padding: 0;
+    background: none; border: 0; border-radius: var(--radius); color: var(--ink); cursor: pointer;
+  }
+  .menu-toggle:focus-visible { outline: 2px solid var(--cyan-text); outline-offset: 2px; }
+  .menu-icon { position: relative; display: block; width: 22px; height: 16px; }
+  .menu-icon i { position: absolute; left: 0; width: 100%; height: 2px; background: currentColor; border-radius: 1px; transition: transform .2s, opacity .2s, top .2s; }
+  .menu-icon i:nth-child(1) { top: 0; }
+  .menu-icon i:nth-child(2) { top: 7px; }
+  .menu-icon i:nth-child(3) { top: 14px; }
+  [data-menu="open"] .menu-icon i:nth-child(1) { top: 7px; transform: rotate(45deg); }
+  [data-menu="open"] .menu-icon i:nth-child(2) { opacity: 0; }
+  [data-menu="open"] .menu-icon i:nth-child(3) { top: 7px; transform: rotate(-45deg); }
+
+  .nav {
+    position: absolute; top: 100%; left: 0; right: 0;
+    flex-direction: column; align-items: stretch; gap: 0;
+    padding: .5rem var(--gutter) 1.25rem;
+    background: var(--sheet); border-bottom: 1px solid var(--line);
+    box-shadow: 0 12px 24px rgba(15, 26, 51, .12);
+    max-height: calc(100dvh - 60px); overflow-y: auto;
+    visibility: hidden; opacity: 0; transform: translateY(-8px);
+    transition: opacity .2s, transform .2s, visibility 0s .2s;
+  }
+  [data-menu="open"] .nav { visibility: visible; opacity: 1; transform: none; transition: opacity .2s, transform .2s; }
+  .nav a:not(.btn) { display: flex; align-items: center; min-height: 52px; padding: 0; font-size: 1.1rem; border-bottom: 1px solid var(--line); }
+  .nav .btn { margin-top: 1rem; min-height: 48px; }
+  .menu-open { overflow: hidden; }
+}
+@media (max-width: 400px) {
+  .brand-logo { height: 30px; }
+  .header-cta { display: none; }
+}
 
 /* Hero */
 .hero { padding-block: clamp(2.5rem, 6vw, 5rem) clamp(3rem, 6vw, 5rem); }
@@ -170,7 +207,8 @@ form.quote { background: var(--sheet); border: 1px solid var(--line); border-top
 .site-footer h2 { font-size: 1rem; color: #fff; margin-bottom: .75rem; letter-spacing: 0; }
 .site-footer ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .4rem; }
 .site-footer a { color: #fff; }
-.site-footer .brand { color: #fff; margin-bottom: .75rem; }
+.site-footer .brand { margin-bottom: 1rem; }
+.site-footer .brand-logo { height: 52px; }
 .legal { margin-top: 2.5rem; padding-top: 1.25rem; border-top: 1px solid rgba(255, 255, 255, .15); font-size: .9rem; }
 
 /* Inner pages */

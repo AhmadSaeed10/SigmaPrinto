@@ -1,13 +1,16 @@
 ---
 import { site } from '../site';
 ---
-<header class="site-header">
+<header class="site-header" data-menu="closed">
   <div class="wrap">
     <a class="brand" href="/" aria-label={`${site.name} home`}>
-      <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
-      {site.name}
+      <img class="brand-logo" src="/brand/logo.png" alt="" width="975" height="203" />
     </a>
-    <nav class="nav" aria-label="Main">
+    <a class="btn header-cta" href="/#quote">Get a quote</a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav" aria-label="Open menu">
+      <span class="menu-icon" aria-hidden="true"><i></i><i></i><i></i></span>
+    </button>
+    <nav class="nav" id="main-nav" aria-label="Main">
       <a href="/services/">Services</a>
       <a href="/#how-it-works">How it works</a>
       <a href="/#faq">FAQ</a>
@@ -16,3 +19,42 @@ import { site } from '../site';
     </nav>
   </div>
 </header>
+
+<script>
+  const header = document.querySelector<HTMLElement>('.site-header');
+  const toggle = header?.querySelector<HTMLButtonElement>('.menu-toggle');
+  const nav = header?.querySelector<HTMLElement>('#main-nav');
+
+  if (header && toggle && nav) {
+    const mobile = window.matchMedia('(max-width: 760px)');
+
+    const setOpen = (open: boolean) => {
+      header.dataset.menu = open ? 'open' : 'closed';
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      document.documentElement.classList.toggle('menu-open', open);
+    };
+
+    toggle.addEventListener('click', () => setOpen(header.dataset.menu !== 'open'));
+
+    // Close after choosing a link (covers same-page anchors like /#faq).
+    nav.addEventListener('click', (e) => {
+      if ((e.target as HTMLElement).closest('a')) setOpen(false);
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && header.dataset.menu === 'open') {
+        setOpen(false);
+        toggle.focus();
+      }
+    });
+
+    document.addEventListener('click', (e) => {
+      if (header.dataset.menu === 'open' && !header.contains(e.target as Node)) setOpen(false);
+    });
+
+    mobile.addEventListener('change', (e) => {
+      if (!e.matches) setOpen(false);
+    });
+  }
+</script>

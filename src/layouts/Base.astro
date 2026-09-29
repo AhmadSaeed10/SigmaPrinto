@@ -22,6 +22,7 @@ const business = {
   name: site.name,
   url: site.url,
   description: site.description,
+  logo: `${site.url}/brand/logo.png`,
   email: site.email,
   ...(site.phone && { telephone: site.phone }),
   ...(site.address && {
@@ -39,7 +40,8 @@ const graph = [business, ...schema];
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta name="theme-color" content="#0f1a33" />
     <meta property="og:site_name" content={site.name} />
     <meta property="og:type" content={type} />
