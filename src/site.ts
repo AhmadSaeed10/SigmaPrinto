@@ -1,7 +1,7 @@
 // Single source of truth for business details. Empty values are hidden in the UI.
 export const site = {
   name: 'SigmaPrinto',
-  url: 'https://sigmaprinto.com',
+  url: 'https://sigma-printo.vercel.app', // swap for the custom domain once connected
   tagline: 'Printing that matches the proof',
   description:
     'Flex banners, posters, vinyl prints, apparel, promotional items and offset printing for businesses and events. Send your artwork, approve a proof, get it delivered.',

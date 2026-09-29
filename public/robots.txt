@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://sigmaprinto.com/sitemap-index.xml
+Sitemap: https://sigma-printo.vercel.app/sitemap-index.xml
