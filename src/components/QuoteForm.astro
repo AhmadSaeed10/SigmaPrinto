@@ -8,7 +8,7 @@ const services = (await getCollection('services')).sort((a, b) => a.data.order -
 <section class="section" id="quote">
   <div class="wrap quote-grid">
     <div class="quote-aside">
-      <h2>Tell us what you need printed</h2>
+      <h2 data-reveal="words">Tell us what you need printed</h2>
       <p>Share the item, size and quantity. We reply with a price and a proof plan, and nothing is printed until you approve.</p>
       <ul class="contact-list">
         <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
@@ -17,7 +17,7 @@ const services = (await getCollection('services')).sort((a, b) => a.data.order -
       </ul>
     </div>
 
-    <form class="quote" id="quote-form" data-whatsapp={site.whatsapp} data-email={site.email}>
+    <form class="quote" data-reveal="feed" id="quote-form" data-whatsapp={site.whatsapp} data-email={site.email}>
       <div class="row2">
         <div class="field">
           <label for="q-name">Your name</label>

@@ -39,11 +39,11 @@ const schema = [
   <div class="wrap service-head">
     <div class="page-head">
       <p class="crumbs"><a href="/">Home</a> / <a href="/services/">Services</a> / {d.title}</p>
-      <h1 class="misreg" style="font-size: clamp(2.2rem, 5.5vw, 4rem)">{d.title}</h1>
-      <p>{d.summary}</p>
-      <div><a class="btn" href="#quote">Get a quote</a></div>
+      <h1 class="misreg" data-reveal="words" style="font-size: clamp(2.2rem, 5.5vw, 4rem)">{d.title}</h1>
+      <p data-reveal="fade" data-delay="0.4s">{d.summary}</p>
+      <div data-reveal="fade" data-delay="0.55s"><a class="btn btn-arrow" href="#quote" data-magnetic>Get a quote</a></div>
     </div>
-    <img class="service-media" src={img.src} alt={img.alt} width="480" height="360" decoding="async" />
+    <div class="service-media-wrap" data-reveal="feed" data-delay="0.15s" data-tilt="5"><img class="service-media" src={img.src} alt={img.alt} width="480" height="360" decoding="async" /></div>
   </div>
 
   <div class="wrap section" style="padding-top:1rem">

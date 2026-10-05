@@ -10,14 +10,14 @@ const {
 <section class="section clients" aria-labelledby="clients-title">
   <div class="wrap clients-head">
     <div>
-      <h2 id="clients-title">{title}</h2>
-      <p>{intro}</p>
+      <h2 id="clients-title" data-reveal="words">{title}</h2>
+      <p data-reveal="fade" data-delay="0.2s">{intro}</p>
     </div>
     <button class="marquee-toggle" type="button" aria-pressed="false" aria-controls="clients-marquee">
       <span class="when-playing">Pause</span><span class="when-paused">Play</span>
     </button>
   </div>
-  <div class="marquee" id="clients-marquee">
+  <div class="marquee" id="clients-marquee" data-reveal="fade" data-delay="0.3s">
     <div class="marquee-track">
       {[0, 1].map((copy) => (
         <ul class="marquee-list" aria-hidden={copy === 1 ? 'true' : undefined}>

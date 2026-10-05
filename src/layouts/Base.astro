@@ -51,6 +51,9 @@ const graph = [business, ...schema];
         try { t = localStorage.getItem('theme'); } catch (e) {}
         if (t !== 'light' && t !== 'dark') t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
         document.documentElement.dataset.theme = t;
+        document.documentElement.classList.add('js');
+        // Failsafe: if the motion script never runs, show everything rather than leave content hidden.
+        setTimeout(function () { if (!document.documentElement.classList.contains('motion')) document.documentElement.classList.remove('js'); }, 2500);
         if (t === 'dark') document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0b1120');
       })();
     </script>
@@ -67,5 +70,10 @@ const graph = [business, ...schema];
     <Header />
     <main id="main"><slot /></main>
     <Footer />
+    <div id="cursor" class="cursor" aria-hidden="true">
+      <svg class="cursor__mark" viewBox="0 0 40 40"><circle cx="20" cy="20" r="9" /><path d="M20 2v36M2 20h36" /></svg>
+      <span class="cursor__label"></span>
+    </div>
+    <script>import '../scripts/motion';</script>
   </body>
 </html>

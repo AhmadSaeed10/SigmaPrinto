@@ -34,19 +34,19 @@ const aboutSchema = {
   <div class="wrap page-head about-head">
     <p class="crumbs"><a href="/">Home</a> / About us</p>
     <p class="eyebrow">About us</p>
-    <h1 class="misreg">A full-service printing &amp; branding partner for growing businesses</h1>
-    <p class="lead">Working for both markets, online and offline, with expertise in activation branding.</p>
+    <h1 class="misreg" data-reveal="words">A full-service printing &amp; branding partner for growing businesses</h1>
+    <p class="lead" data-reveal="fade" data-delay="0.45s">Working for both markets, online and offline, with expertise in activation branding.</p>
   </div>
 
   <section class="section about-intro">
     <div class="wrap about-intro-grid">
-      <p class="about-statement">
+      <p class="about-statement" data-reveal="fade">
         {site.name} is a professional printing and branding service provider delivering premium-quality prints with attention to detail.
       </p>
       <div class="about-intro-body">
         <p>From business essentials to large-format branding, we help brands present themselves with confidence, consistency, and clarity.</p>
-        <dl class="about-facts">
-          <div><dt>{clients.length}+</dt><dd>brands served</dd></div>
+        <dl class="about-facts" data-reveal="stagger">
+          <div><dt data-count={clients.length} data-suffix="+">{clients.length}+</dt><dd>brands served</dd></div>
           <div><dt>Online &amp; offline</dt><dd>markets covered</dd></div>
           <div><dt>Activation</dt><dd>branding specialists</dd></div>
         </dl>
@@ -56,14 +56,14 @@ const aboutSchema = {
 
   <section class="section">
     <div class="wrap mission-grid">
-      <div class="mission">
-        <h2>Our mission</h2>
+      <div class="mission" data-reveal="fade">
+        <h2 data-reveal="words">Our mission</h2>
         <p>We strive to provide the most reliable and efficient printing and branding services, without compromising on quality or safety.</p>
         <p>We also aim to prove our quality skills, fair prices and customer care, so that we continue our business relationship for many years, beyond the first job we complete.</p>
       </div>
       <div>
-        <h2>Core values</h2>
-        <ol class="values">
+        <h2 data-reveal="words">Core values</h2>
+        <ol class="values" data-reveal="stagger">
           {values.map((v) => <li><h3>{v.h}</h3><p>{v.p}</p></li>)}
         </ol>
       </div>
@@ -73,10 +73,10 @@ const aboutSchema = {
   <section class="section process why">
     <div class="wrap why-grid">
       <div class="section-head">
-        <h2>Why choose us?</h2>
+        <h2 data-reveal="words">Why choose us?</h2>
         <p>We show you our appreciation by going above and beyond, ensuring a flawless experience. We can be your top choice today!</p>
       </div>
-      <ul class="reasons">
+      <ul class="reasons" data-reveal="stagger">
         {reasons.map((r) => <li>{r}</li>)}
       </ul>
     </div>
@@ -86,8 +86,8 @@ const aboutSchema = {
 
   <section class="section final">
     <div class="wrap">
-      <h2>Ready to put your brand in print?</h2>
-      <a class="btn" href="/#quote">Get a quote</a>
+      <h2 data-reveal="words">Ready to put your brand in print?</h2>
+      <a class="btn btn-arrow" href="/#quote" data-magnetic>Get a quote</a>
     </div>
   </section>
 </Base>

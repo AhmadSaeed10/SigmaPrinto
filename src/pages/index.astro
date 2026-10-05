@@ -40,8 +40,8 @@ const steps = [
   <section class="section services" id="services">
     <div class="wrap">
       <div class="section-head">
-        <h2>What we print</h2>
-        <p>From a single banner to a full event kit. Pick a category to see what is included.</p>
+        <h2 data-reveal="words">What we print</h2>
+        <p data-reveal="fade" data-delay="0.2s">From a single banner to a full event kit. Pick a category to see what is included.</p>
       </div>
       <ServiceList />
     </div>
@@ -49,8 +49,8 @@ const steps = [
 
   <section class="section">
     <div class="wrap">
-      <div class="section-head"><h2>Made for the way you use print</h2></div>
-      <div class="built">
+      <div class="section-head"><h2 data-reveal="words">Made for the way you use print</h2></div>
+      <div class="built" data-reveal="stagger">
         {audiences.map((a) => <div><h3>{a.h}</h3><p>{a.p}</p></div>)}
       </div>
     </div>
@@ -59,10 +59,10 @@ const steps = [
   <section class="section process" id="how-it-works">
     <div class="wrap">
       <div class="section-head">
-        <h2>From brief to delivery in four steps</h2>
-        <p>You see the result before we print it.</p>
+        <h2 data-reveal="words">From brief to delivery in four steps</h2>
+        <p data-reveal="fade" data-delay="0.2s">You see the result before we print it.</p>
       </div>
-      <ol class="steps">
+      <ol class="steps" data-reveal="stagger">
         {steps.map((s) => <li><h3>{s.h}</h3><p>{s.p}</p></li>)}
       </ol>
     </div>
@@ -73,8 +73,8 @@ const steps = [
 
   <section class="section final">
     <div class="wrap">
-      <h2>Have artwork ready? Send it over.</h2>
-      <a class="btn" href="#quote">Get a quote</a>
+      <h2 data-reveal="words">Have artwork ready? Send it over.</h2>
+      <a class="btn btn-arrow" href="#quote" data-magnetic>Get a quote</a>
     </div>
   </section>
 </Base>

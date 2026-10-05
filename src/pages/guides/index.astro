@@ -6,10 +6,10 @@ const guides = (await getCollection('guides', (g) => !g.data.draft)).sort((a, b)
 <Base title="Print Guides | SigmaPrinto" description="Practical guides on artwork, materials and ordering print.">
   <div class="wrap page-head">
     <p class="crumbs"><a href="/">Home</a> / Guides</p>
-    <h1 class="misreg" style="font-size: clamp(2.2rem, 5.5vw, 4rem)">Print guides</h1>
+    <h1 class="misreg" data-reveal="words" style="font-size: clamp(2.2rem, 5.5vw, 4rem)">Print guides</h1>
   </div>
   <div class="wrap section" style="padding-top:1rem">
-    <ul class="service-list">
+    <ul class="service-list" data-reveal="stagger">
       {guides.map((g) => (
         <li>
           <a class="service-row" href={`/guides/${g.id}/`} style="grid-template-columns: 1fr auto">
