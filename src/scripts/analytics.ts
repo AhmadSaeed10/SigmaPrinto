@@ -33,9 +33,9 @@ document.addEventListener('click', (e) => {
   const area = el.closest('[data-track-area]')?.getAttribute('data-track-area') || 'body';
 
   // Direct contact links (not the quote form)
-  if (href.startsWith('https://wa.me/')) track('whatsapp_click', { link_location: area });
-  else if (href.startsWith('tel:')) track('phone_click', { link_location: area });
-  else if (href.startsWith('mailto:')) track('email_click', { link_location: area });
+  if (href.startsWith('https://wa.me/')) track('click_whatsapp', { link_location: area });
+  else if (href.startsWith('tel:')) track('click_call', { link_location: area });
+  else if (href.startsWith('mailto:')) track('click_email', { link_location: area });
 
   // "Get a quote" buttons and other marked CTAs
   const cta = el.dataset.cta;
