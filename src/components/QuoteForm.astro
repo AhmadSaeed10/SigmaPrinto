@@ -5,7 +5,7 @@ interface Props { selected?: string }
 const { selected = '' } = Astro.props;
 const services = (await getCollection('services')).sort((a, b) => a.data.order - b.data.order);
 ---
-<section class="section" id="quote">
+<section class="section" id="quote" data-track-area="quote_section">
   <div class="wrap quote-grid">
     <div class="quote-aside">
       <h2 data-reveal="words">Tell us what you need printed</h2>
@@ -54,8 +54,29 @@ const services = (await getCollection('services')).sort((a, b) => a.data.order -
 </section>
 
 <script>
+  import { track } from '../scripts/analytics';
+
   const form = document.getElementById('quote-form') as HTMLFormElement | null;
   const status = document.getElementById('q-status');
+  const formParams = () => ({ form_name: 'quote', form_location: window.location.pathname });
+
+  // First interaction with the form
+  let started = false;
+  form?.addEventListener('focusin', () => {
+    if (started) return;
+    started = true;
+    track('quote_form_start', formParams());
+  });
+
+  // Browser validation stopped the submit. `invalid` fires per field, so report only the first one per attempt.
+  let errorQueued = false;
+  form?.addEventListener('invalid', (e) => {
+    if (errorQueued) return;
+    errorQueued = true;
+    track('quote_form_error', { ...formParams(), field: (e.target as HTMLInputElement).name });
+    setTimeout(() => (errorQueued = false), 0);
+  }, true);
+
   form?.addEventListener('submit', (e) => {
     e.preventDefault();
     const d = new FormData(form);
@@ -71,6 +92,17 @@ const services = (await getCollection('services')).sort((a, b) => a.data.order -
       ? `https://wa.me/${wa}?text=${encodeURIComponent('Quote request\n' + body)}`
       : `mailto:${form.dataset.email}?subject=${encodeURIComponent('Quote request')}&body=${encodeURIComponent(body)}`;
     if (status) status.textContent = wa ? 'Opening WhatsApp with your request.' : 'Opening your email app with your request.';
-    window.location.href = url;
+
+    // The Lead: the form is valid and we are handing the request to WhatsApp (or email).
+    // Only non-personal details go to GA. Navigation waits for GA to confirm the hit (max 1s).
+    const qty = Number(String(d.get('qty') || '').replace(/[^\d]/g, '')) || undefined;
+    track('generate_lead', {
+      ...formParams(),
+      lead_source: 'quote_form',
+      method: wa ? 'whatsapp' : 'email',
+      product_type: String(d.get('product') || ''),
+      quantity: qty,
+      has_details: Boolean(String(d.get('details') || '').trim()),
+    }, () => { window.location.href = url; });
   });
 </script>

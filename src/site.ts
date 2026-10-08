@@ -7,6 +7,7 @@ export const site = {
     'Flex banners, posters, vinyl prints, apparel, promotional items and offset printing for businesses and events. Send your artwork, approve a proof, get it delivered.',
   email: 'Sigmaprinto7@gmail.com',
   phone: '+92 326 6778432',
+  ga4: 'G-1FV3ED9FXV', // Google Analytics 4 measurement ID
   whatsapp: '923266778432', // digits only, used for wa.me links
   address: '', // TODO street address
   city: '', // TODO city

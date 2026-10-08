@@ -9,7 +9,7 @@ const services = (await getCollection('services')).sort((a, b) => a.data.order -
     const img = serviceImage(s);
     return (
       <li>
-        <a class="service-row" href={`/services/${s.id}/`} data-cursor="View">
+        <a class="service-row" href={`/services/${s.id}/`} data-cursor="View" data-service={s.id}>
           <img class="row-thumb" src={img.src} alt="" width="480" height="360" loading="lazy" decoding="async" />
           <h3>{s.data.title}<span class="spec">{s.data.spec}</span></h3>
           <div>

@@ -4,7 +4,7 @@ import { site } from '../site';
 const services = (await getCollection('services')).sort((a, b) => a.data.order - b.data.order);
 const year = new Date().getFullYear();
 ---
-<footer class="site-footer">
+<footer class="site-footer" data-track-area="footer">
   <div class="wrap">
     <div class="cols">
       <div>

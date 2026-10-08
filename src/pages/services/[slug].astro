@@ -36,12 +36,12 @@ const schema = [
 ];
 ---
 <Base title={d.seoTitle} description={d.seoDescription} schema={schema}>
-  <div class="wrap service-head">
+  <div class="wrap service-head" data-track-area="service_header">
     <div class="page-head">
       <p class="crumbs"><a href="/">Home</a> / <a href="/services/">Services</a> / {d.title}</p>
       <h1 class="misreg" data-reveal="words" style="font-size: clamp(2.2rem, 5.5vw, 4rem)">{d.title}</h1>
       <p data-reveal="fade" data-delay="0.4s">{d.summary}</p>
-      <div data-reveal="fade" data-delay="0.55s"><a class="btn btn-arrow" href="#quote" data-magnetic>Get a quote</a></div>
+      <div data-reveal="fade" data-delay="0.55s"><a class="btn btn-arrow" href="#quote" data-magnetic data-cta="get_quote">Get a quote</a></div>
     </div>
     <div class="service-media-wrap" data-reveal="feed" data-delay="0.15s" data-tilt="5"><img class="service-media" src={img.src} alt={img.alt} width="480" height="360" decoding="async" /></div>
   </div>
