@@ -1,0 +1,82 @@
+---
+import AdminLayout from '../../admin/AdminLayout.astro';
+import { describe } from '../../admin/describe';
+import { contentTypes, getType, MEDIA_DIR } from '../../admin/registry';
+import { getEntry, getSingleton, listEntries } from '../../admin/server/content';
+import { githubConfig } from '../../admin/server/config';
+import { GitHubError, listDir } from '../../admin/server/github';
+import { isSlug } from '../../admin/server/paths';
+
+export const prerender = false;
+
+// One page for every admin view: dashboard, list, editor and media.
+const parts = (Astro.params.path ?? '').split('/').filter(Boolean);
+const [first, second] = parts;
+const gh = githubConfig();
+
+let page = 'dashboard';
+let title = 'Dashboard';
+let active = 'dashboard';
+let data: Record<string, unknown> = {};
+let setupError = gh.missing.length ? `The admin cannot read or save content yet. Add these environment variables in Vercel: ${gh.missing.join(', ')}.` : '';
+
+try {
+  if (setupError) {
+    // Render the shell with the setup message only.
+  } else if (!first) {
+    const counts = await Promise.all([
+      ...contentTypes.map(async (t) => (t.kind === 'collection' ? (await listDir(t.dir)).filter((f) => f.name.endsWith('.md')).length : null)),
+      listDir(MEDIA_DIR).then((f) => f.filter((x) => x.name.endsWith('.webp')).length),
+    ]);
+    data = {
+      cards: [
+        ...contentTypes.map((t, i) => ({ key: t.key, label: t.label, count: counts[i], href: `/admin/${t.key}/` })),
+        { key: 'media', label: 'Media', count: counts[counts.length - 1], href: '/admin/media/' },
+      ],
+      repo: gh.repo, branch: gh.branch,
+    };
+  } else if (first === 'media' && !second) {
+    page = 'media'; title = 'Media'; active = 'media';
+  } else {
+    const type = getType(first);
+    if (!type || parts.length > 2) return new Response('Not found', { status: 404 });
+    active = type.key;
+    const fields = describe(type.schema);
+    if (type.kind === 'singleton') {
+      page = 'editor'; title = type.label;
+      const entry = await getSingleton(type);
+      data = { type: { key: type.key, label: type.label, singular: type.singular, kind: type.kind, help: type.help }, fields, entry, mode: 'update' };
+    } else if (!second) {
+      page = 'list'; title = type.label;
+      data = {
+        type: { key: type.key, label: type.label, singular: type.singular, publicPath: type.publicPath },
+        items: await listEntries(type),
+      };
+    } else {
+      page = 'editor';
+      const base = { key: type.key, label: type.label, singular: type.singular, kind: type.kind, publicPath: type.publicPath, bodyLabel: type.bodyLabel, bodyHelp: type.bodyHelp, titleField: type.titleField };
+      if (second === 'new') {
+        const from = Astro.url.searchParams.get('from');
+        const src = from && isSlug(from) ? await getEntry(type, from) : null;
+        title = src ? `Duplicate ${type.singular}` : `New ${type.singular}`;
+        const entry = src
+          ? { id: '', sha: null, data: { ...src.data, [type.titleField]: `${src.data[type.titleField] ?? ''} (copy)` }, body: src.body }
+          : { id: '', sha: null, data: Object.fromEntries(fields.filter((f) => f.default !== undefined).map((f) => [f.name, f.default])), body: '' };
+        data = { type: base, fields, entry, mode: 'create' };
+      } else {
+        if (!isSlug(second)) return new Response('Not found', { status: 404 });
+        const entry = await getEntry(type, second);
+        if (!entry) return new Response('Not found', { status: 404 });
+        title = String(entry.data[type.titleField] ?? second);
+        data = { type: base, fields, entry, mode: 'update' };
+      }
+    }
+  }
+} catch (e) {
+  setupError = e instanceof GitHubError ? e.message : 'Could not load content from GitHub. Try again in a moment.';
+  if (!(e instanceof GitHubError)) console.error('[admin]', e);
+}
+---
+<AdminLayout title={title} active={active} page={setupError ? 'error' : page} data={data}>
+  {setupError ? <p class="notice notice--warn">{setupError}</p> : <div id="view" aria-busy="false"></div>}
+</AdminLayout>

@@ -4,6 +4,7 @@ import Base from '../../layouts/Base.astro';
 import QuoteForm from '../../components/QuoteForm.astro';
 import { site } from '../../site';
 import { serviceImage } from '../../lib/serviceImage';
+import { Image } from 'astro:assets';
 
 export async function getStaticPaths() {
   const services = (await getCollection('services')).sort((a, b) => a.data.order - b.data.order);
@@ -48,7 +49,19 @@ const schema = [
 
   <div class="wrap section" style="padding-top:1rem">
     <div class="detail">
-      <div class="prose"><Content /></div>
+      <div class="prose">
+        <Content />
+        {d.gallery && d.gallery.length > 0 && (
+          <section class="gallery" aria-label={`${d.title} examples`}>
+            <h2>Recent work</h2>
+            <ul data-reveal="stagger">
+              {d.gallery.map((g) => (
+                <li><Image src={g.image} alt={g.alt} widths={[400, 800]} sizes="(min-width: 900px) 25vw, 50vw" /></li>
+              ))}
+            </ul>
+          </section>
+        )}
+      </div>
       <aside class="side">
         <h2 style="font-size:1.3rem">What is included</h2>
         <ul>{d.items.map((i) => <li>{i}</li>)}</ul>

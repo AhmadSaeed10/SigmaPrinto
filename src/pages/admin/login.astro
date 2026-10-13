@@ -1,0 +1,32 @@
+---
+import AdminLayout from '../../admin/AdminLayout.astro';
+import { authConfig } from '../../admin/server/config';
+import { readSession } from '../../admin/server/session';
+
+export const prerender = false;
+
+if (readSession(Astro.cookies)) return Astro.redirect('/admin/');
+const missing = authConfig().missing;
+const next = Astro.url.searchParams.get('next') ?? '';
+---
+<AdminLayout title="Log in" page="login" bare data={{ next }}>
+  <main class="login">
+    <form class="login__card" id="login-form" novalidate>
+      <img src="/brand/logo-header.svg" alt="SigmaPrinto" width="200" height="38" />
+      <h1>Content admin</h1>
+      {missing.length > 0 && (
+        <p class="notice notice--warn">Login is not set up yet. Add these environment variables in Vercel: <code>{missing.join(', ')}</code></p>
+      )}
+      <div class="f">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" autocomplete="username" required />
+      </div>
+      <div class="f">
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" autocomplete="current-password" required />
+      </div>
+      <p class="login__error" id="login-error" role="alert"></p>
+      <button class="btn btn--primary" type="submit">Log in</button>
+    </form>
+  </main>
+</AdminLayout>

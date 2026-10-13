@@ -476,3 +476,8 @@ form.quote { background: var(--sheet); border: 1px solid var(--line); border-top
   @view-transition { navigation: none; }
 }
 @media print { .cursor, .halftone { display: none !important; } }
+
+/* Service gallery (from the admin panel) */
+.gallery { margin-top: 1.5rem; display: grid; gap: 1rem; }
+.gallery ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: .75rem; }
+.gallery img { width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--radius); border: 1px solid var(--line); }
